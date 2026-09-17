@@ -1,0 +1,12 @@
+lidar_3d_tracker:
+  ros__parameters:
+    sensor_id: "lidar_3d_1"
+    max_range: 8.0
+    voxel_leaf_size: 0.05
+    ground_z_threshold: 0.1
+    cluster_tolerance: 0.3
+    min_cluster_points: 10
+    max_cluster_points: 5000
+    min_cluster_width: 0.15
+    max_cluster_width: 1.0
+    position_noise_stddev: 0.03

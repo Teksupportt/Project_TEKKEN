@@ -1,0 +1,26 @@
+# Example matching the earlier scenario: 2x 2D lidar, 1x 3D lidar, 1x camera.
+# Each entry becomes one launched node instance. "type" selects which
+# executable/param file to use; sensor_id and topics must be unique
+# per instance so fusion can tell detections apart.
+
+sensors:
+  - type: lidar_2d
+    sensor_id: "lidar_2d_1"
+    input_topic: "/scan_front_left"
+    output_topic: "target/raw/lidar_2d_1"
+
+  - type: lidar_2d
+    sensor_id: "lidar_2d_2"
+    input_topic: "/scan_front_right"
+    output_topic: "target/raw/lidar_2d_2"
+
+  - type: lidar_3d
+    sensor_id: "lidar_3d_1"
+    input_topic: "/points_front"
+    output_topic: "target/raw/lidar_3d_1"
+
+  - type: camera_cv
+    sensor_id: "camera_1"
+    input_topic: "/camera_front/image_raw"
+    camera_info_topic: "/camera_front/camera_info"
+    output_topic: "target/raw/camera_1"

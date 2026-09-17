@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>perception</name>
+  <version>0.0.1</version>
+  <description>Per-sensor target tracker nodes: 2D lidar, 3D lidar, classical CV camera, ML camera</description>
+  <maintainer email="you@example.com">Shaheer</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>common_msgs</depend>
+  <depend>perception_msgs</depend>
+
+  <depend>libpcl-all-dev</depend>
+  <depend>pcl_conversions</depend>
+  <depend>libopencv-dev</depend>
+  <depend>cv_bridge</depend>
+
+  <!-- ONNX Runtime has no standard ROS/apt package — installed manually
+       or via the Dockerfile, and located via ONNXRUNTIME_ROOT in CMake.
+       Not declared here since rosdep cannot resolve it. -->
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

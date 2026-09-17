@@ -1,0 +1,9 @@
+camera_ml_tracker:
+  ros__parameters:
+    sensor_id: "camera_ml_1"
+    model_path: ""   # must be set — no default model shipped
+    input_width: 320
+    input_height: 320
+    confidence_threshold: 0.5
+    known_target_width_m: 0.4
+    position_noise_stddev: 0.15

@@ -1,0 +1,8 @@
+heading_controller_node:
+  ros__parameters:
+    control_rate_hz: 50.0
+    deadzone: 0.05
+    kp: 2.0
+    kd: 0.3
+    max_yaw_rate: 1.5
+    max_yaw_accel: 3.0

@@ -1,0 +1,11 @@
+services:
+  combat_ws:
+    build: .
+    container_name: combat_ws
+    network_mode: host
+    environment:
+      - ROS_DOMAIN_ID=0   # must match the simulator's ROS_DOMAIN_ID
+    volumes:
+      - ./src:/combat_ws/src
+    stdin_open: true
+    tty: true

@@ -1,0 +1,12 @@
+camera_cv_tracker:
+  ros__parameters:
+    sensor_id: "camera_1"
+    hue_min: 40
+    hue_max: 80
+    sat_min: 100
+    sat_max: 255
+    val_min: 100
+    val_max: 255
+    min_blob_area_px: 200
+    known_target_width_m: 0.3
+    position_noise_stddev: 0.1

@@ -1,0 +1,11 @@
+fusion_node:
+  ros__parameters:
+    predict_rate_hz: 40.0
+    q_pos: 0.05
+    q_vel: 0.5
+    frame_id: "base_link"
+    sensor_topics:
+      - "target/raw/lidar_2d_1"
+      - "target/raw/lidar_2d_2"
+      - "target/raw/lidar_3d_1"
+      - "target/raw/camera_1"
