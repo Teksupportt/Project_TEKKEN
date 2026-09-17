@@ -22,16 +22,27 @@ RUN rosdep init || true && rosdep update
 
 WORKDIR /combat_ws
 
-# Copy workspace source
-COPY src ./src
+# Copy only package.xml files first, preserving each package's directory
+# structure. This means the dependency-resolution layer below only
+# invalidates when a package.xml actually changes — not on every source
+# edit — so `apt-get update` + `rosdep install` won't rerun on every build.
+COPY src/common_msgs/package.xml ./src/common_msgs/package.xml
+COPY src/perception_msgs/package.xml ./src/perception_msgs/package.xml
+COPY src/perception/package.xml ./src/perception/package.xml
+COPY src/fusion/package.xml ./src/fusion/package.xml
+COPY src/heading_controller/package.xml ./src/heading_controller/package.xml
+COPY src/bringup/package.xml ./src/bringup/package.xml
 
 # Resolve and install package dependencies declared in package.xml files.
-# apt-get update is required again here — the apt index was cleared by
-# the earlier RUN's "rm -rf /var/lib/apt/lists/*" cleanup step.
+# This layer is now cached across source-only changes.
 RUN apt-get update && \
     . /opt/ros/humble/setup.sh && \
     rosdep install --from-paths src --ignore-src -r -y && \
     rm -rf /var/lib/apt/lists/*
+
+# Now copy the full workspace source — this invalidates on every code
+# change, but no longer forces a re-download of the package index above.
+COPY src ./src
 
 # Build the workspace
 RUN . /opt/ros/humble/setup.sh && \

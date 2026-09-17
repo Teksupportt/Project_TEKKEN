@@ -15,21 +15,17 @@ find_package(OpenCV REQUIRED)
 find_package(cv_bridge REQUIRED)
 
 # ONNX Runtime — no standard find_package script on most systems.
-# Set ONNXRUNTIME_ROOT to wherever it's installed (e.g. via Dockerfile
-# download/extract step). Override with -DONNXRUNTIME_ROOT=... if needed.
+# Always installed via the Dockerfile download/extract step.
+# Override with -DONNXRUNTIME_ROOT=... if it lives elsewhere.
 set(ONNXRUNTIME_ROOT "/opt/onnxruntime" CACHE PATH "Path to ONNX Runtime install")
 find_path(ONNXRUNTIME_INCLUDE_DIR onnxruntime_cxx_api.h
   PATHS "${ONNXRUNTIME_ROOT}/include"
+  REQUIRED
 )
 find_library(ONNXRUNTIME_LIB onnxruntime
   PATHS "${ONNXRUNTIME_ROOT}/lib"
+  REQUIRED
 )
-
-if(NOT ONNXRUNTIME_INCLUDE_DIR OR NOT ONNXRUNTIME_LIB)
-  message(WARNING
-    "ONNX Runtime not found at ${ONNXRUNTIME_ROOT} — camera_ml_tracker will not build. "
-    "Set ONNXRUNTIME_ROOT to its install location.")
-endif()
 
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
@@ -68,36 +64,28 @@ target_include_directories(camera_cv_tracker PRIVATE include)
 target_link_libraries(camera_cv_tracker ${OpenCV_LIBRARIES})
 
 # --- camera_ml_tracker ---
-if(ONNXRUNTIME_INCLUDE_DIR AND ONNXRUNTIME_LIB)
-  add_executable(camera_ml_tracker
-    src/camera_ml_tracker_node.cpp
-    src/camera_ml_tracker_main.cpp
-  )
-  ament_target_dependencies(camera_ml_tracker
-    rclcpp sensor_msgs common_msgs perception_msgs cv_bridge
-  )
-  target_include_directories(camera_ml_tracker PRIVATE
-    include
-    ${ONNXRUNTIME_INCLUDE_DIR}
-  )
-  target_link_libraries(camera_ml_tracker
-    ${OpenCV_LIBRARIES}
-    ${ONNXRUNTIME_LIB}
-  )
-endif()
+add_executable(camera_ml_tracker
+  src/camera_ml_tracker_node.cpp
+  src/camera_ml_tracker_main.cpp
+)
+ament_target_dependencies(camera_ml_tracker
+  rclcpp sensor_msgs common_msgs perception_msgs cv_bridge
+)
+target_include_directories(camera_ml_tracker PRIVATE
+  include
+  ${ONNXRUNTIME_INCLUDE_DIR}
+)
+target_link_libraries(camera_ml_tracker
+  ${OpenCV_LIBRARIES}
+  ${ONNXRUNTIME_LIB}
+)
 
 # --- install ---
-set(PERCEPTION_TARGETS
+install(TARGETS
   lidar_2d_tracker
   lidar_3d_tracker
   camera_cv_tracker
-)
-if(TARGET camera_ml_tracker)
-  list(APPEND PERCEPTION_TARGETS camera_ml_tracker)
-endif()
-
-install(TARGETS
-  ${PERCEPTION_TARGETS}
+  camera_ml_tracker
   DESTINATION lib/${PROJECT_NAME}
 )
 

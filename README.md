@@ -40,6 +40,9 @@ Built as a set of modular ROS2 packages:
 
 ```
 combat_ws/
+├── Dockerfile
+├── docker-compose.yml
+├── .dockerignore
 └── src/
     ├── common_msgs/
     │   └── msg/
@@ -48,35 +51,54 @@ combat_ws/
     │
     ├── perception_msgs/
     │   └── msg/
+    │       ├── TargetDetection.msg
     │       └── TargetEstimate.msg
     │
     ├── perception/
-    │   └── src/
-    │       ├── lidar_2d_tracker/
-    │       │   └── main.cpp
-    │       ├── lidar_3d_tracker/
-    │       │   └── main.cpp
-    │       ├── camera_cv_tracker/
-    │       │   └── main.cpp
-    │       └── camera_ml_tracker/        # optional, requires ONNX Runtime
-    │           └── main.cpp
+    │   ├── include/perception/
+    │   │   ├── lidar_2d_tracker.hpp
+    │   │   ├── lidar_3d_tracker.hpp
+    │   │   ├── camera_cv_tracker.hpp
+    │   │   └── camera_ml_tracker.hpp
+    │   ├── src/
+    │   │   ├── lidar_2d_tracker_node.cpp / lidar_2d_tracker_main.cpp
+    │   │   ├── lidar_3d_tracker_node.cpp / lidar_3d_tracker_main.cpp
+    │   │   ├── camera_cv_tracker_node.cpp / camera_cv_tracker_main.cpp
+    │   │   └── camera_ml_tracker_node.cpp / camera_ml_tracker_main.cpp   # optional, requires ONNX Runtime
+    │   ├── config/
+    │   │   ├── sensors_example.yaml
+    │   │   ├── lidar_2d_tracker.yaml
+    │   │   ├── lidar_3d_tracker.yaml
+    │   │   ├── camera_cv_tracker.yaml
+    │   │   └── camera_ml_tracker.yaml
+    │   └── launch/
+    │       └── perception.launch.py
     │
     ├── fusion/
-    │   └── src/
-    │       └── fusion_node/
-    │           └── main.cpp              # Kalman Filter sensor fusion
+    │   ├── include/fusion/
+    │   │   ├── fusion_node.hpp
+    │   │   └── ekf.hpp
+    │   ├── src/
+    │   │   ├── fusion_node.cpp / fusion_main.cpp
+    │   │   └── ekf.cpp
+    │   ├── config/
+    │   │   └── fusion_params.yaml
+    │   └── launch/
+    │       └── fusion.launch.py
     │
     ├── heading_controller/
-    │   └── src/
-    │       └── heading_controller_node/
-    │           ├── main.cpp
-    │           ├── heading_controller_node.hpp
-    │           └── rate_limiter.hpp
+    │   ├── include/heading_controller/
+    │   │   ├── heading_controller_node.hpp
+    │   │   └── rate_limiter.hpp
+    │   ├── src/
+    │   │   ├── heading_controller_node.cpp / heading_controller_main.cpp
+    │   │   └── rate_limiter.cpp
+    │   ├── config/
+    │   │   └── controller_params.yaml
+    │   └── launch/
+    │       └── heading_controller.launch.py
     │
     └── bringup/
-        ├── launch/
-        │   ├── combat_framework.launch.py
-        │   └── perception.launch.py
-        └── config/
-            └── sensors_example.yaml
+        └── launch/
+            └── combat_framework.launch.py
 ```
