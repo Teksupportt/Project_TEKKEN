@@ -1,0 +1,9 @@
+# Sim sensor config: one 2D lidar per robot, matching the Gazebo plugin's
+# "scan" topic. Topics are relative (no leading slash) so they resolve
+# under whatever robot_name namespace perception.launch.py is given.
+
+sensors:
+  - type: lidar_2d
+    sensor_id: "lidar_2d_1"
+    input_topic: "scan"
+    output_topic: "target/raw/lidar_2d_1"

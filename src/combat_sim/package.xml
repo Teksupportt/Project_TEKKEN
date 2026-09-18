@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>combat_sim</name>
+  <version>0.0.1</version>
+  <description>Gazebo simulation of two robots running the full combat framework stack, for parallel-instance and integration testing</description>
+  <maintainer email="you@example.com">Shaheer</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <exec_depend>gazebo_ros</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>xacro</exec_depend>
+  <exec_depend>teleop_twist_keyboard</exec_depend>
+  <exec_depend>perception</exec_depend>
+  <exec_depend>perception_msgs</exec_depend>
+  <exec_depend>fusion</exec_depend>
+  <exec_depend>heading_controller</exec_depend>
+  <exec_depend>bringup</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
