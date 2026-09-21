@@ -32,9 +32,12 @@ COPY src/perception/package.xml ./src/perception/package.xml
 COPY src/fusion/package.xml ./src/fusion/package.xml
 COPY src/heading_controller/package.xml ./src/heading_controller/package.xml
 COPY src/bringup/package.xml ./src/bringup/package.xml
+COPY src/combat_sim/package.xml ./src/combat_sim/package.xml
 
 # Resolve and install package dependencies declared in package.xml files.
-# This layer is now cached across source-only changes.
+# This layer is cached across source-only changes, and now also pulls in
+# combat_sim's deps (gazebo_ros, robot_state_publisher, xacro,
+# teleop_twist_keyboard) via rosdep.
 RUN apt-get update && \
     . /opt/ros/humble/setup.sh && \
     rosdep install --from-paths src --ignore-src -r -y && \

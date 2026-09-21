@@ -4,6 +4,7 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration, Command
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 from ament_index_python.packages import get_package_share_directory
 
 
@@ -16,10 +17,13 @@ def generate_launch_description():
     xacro_path = os.path.join(
         get_package_share_directory("combat_sim"), "urdf", "simple_bot.urdf.xacro")
 
-    robot_description = Command([
-        "xacro ", xacro_path,
-        " robot_name:=", LaunchConfiguration("robot_name"),
-    ])
+    robot_description = ParameterValue(
+        Command([
+            "xacro ", xacro_path,
+            " robot_name:=", LaunchConfiguration("robot_name"),
+        ]),
+        value_type=str,
+    )
 
     robot_state_publisher = Node(
         package="robot_state_publisher",
